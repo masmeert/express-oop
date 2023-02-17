@@ -22,12 +22,12 @@ export class Server {
       const path = Reflect.getMetadata("path", controller);
       const routes = Reflect.getMetadata("routes", controller) as HttpRoute[];
       const router = express.Router();
-      console.table(routes)
+      console.table(routes);
       for (const route of routes) {
         const handler = instance[route.handler];
         router[route.method](route.path, handler);
       }
-      this.app.use(path, router)
+      this.app.use(path, router);
     }
   }
 }

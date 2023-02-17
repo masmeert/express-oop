@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 import type { RouteMetadata } from "../types/core";
-import type {HttpMethod, HttpRoute} from "../types/http";
+import type { HttpMethod, HttpRoute } from "../types/http";
 
 /*
  * Decorator for handling routes
