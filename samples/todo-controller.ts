@@ -4,26 +4,26 @@ import { Server } from "../packages/common/classes/server";
 import { Controller } from "../packages/common/decorators/controller";
 import { Get, Post } from "../packages/common/decorators/handlers";
 
+const todos = ["Learn Express", "Learn TypeScript"];
+
 @Controller("/todo")
 export default class TodoController {
-  private todos: string[] = ["Learn Express", "Learn TypeScript"];
-
-  @Get("/")
+  @Get()
   public index(req: Request, res: Response): void {
-    res.json({ todos: this.todos });
+    res.json({ todos });
   }
 
   @Get("/:id")
   public find(req: Request, res: Response): void {
     const { id } = req.params;
-    res.json({ todo: this.todos[parseInt(id)] });
+    res.json({ todo: todos[parseInt(id)] });
   }
 
-  @Post("/")
+  @Post()
   public create(req: Request, res: Response): void {
     const { todo } = req.body;
-    this.todos.push(todo);
-    res.status(204).json({ todos: this.todos });
+    todos.push(todo);
+    res.status(204).json({ todos });
   }
 }
 

@@ -1,11 +1,9 @@
 import "reflect-metadata";
 
-import type { Constructor } from "../types/fn";
+import type { ConstructorFn } from "../types/fn";
 
-export function Controller<ConstructorFn extends Constructor>(
-  base_path: string
-) {
-  return (target: ConstructorFn) => {
-    Reflect.defineMetadata("base_path", base_path, target);
+export function Controller(path: string) {
+  return function (target: ConstructorFn) {
+    Reflect.defineMetadata("path", path, target);
   };
 }

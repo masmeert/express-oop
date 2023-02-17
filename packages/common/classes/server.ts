@@ -1,5 +1,5 @@
 import express from "express";
-import type { Router } from "../types/http";
+import type { HttpRoute } from "../types/http";
 
 export class Server {
   private readonly app: express.Application;
@@ -16,25 +16,18 @@ export class Server {
     });
   }
 
-  public bind_routes<C>(controllers: { new (): C }[]) {
-    const info: Array<{ api: string; handler: string }> = [];
+  public bind_routes<IController>(controllers: { new (): IController }[]) {
     for (const controller of controllers) {
       const instance = new controller() as any;
-      const base_path = Reflect.getMetadata("base_path", controller);
-      const routers: Router[] = Reflect.getMetadata("routers", controller);
-      const express_router = express.Router();
-      for (const router of routers) {
-        express_router[router.method](
-          router.path,
-          instance[router.handler_name]
-        ).bind(instance);
-        info.push({
-          api: `${router.method.toUpperCase()} ${base_path}${router.path}`,
-          handler: `${controller.name}.${router.handler_name}`,
-        });
+      const path = Reflect.getMetadata("path", controller);
+      const routes = Reflect.getMetadata("routes", controller) as HttpRoute[];
+      const router = express.Router();
+      console.table(routes)
+      for (const route of routes) {
+        const handler = instance[route.handler];
+        router[route.method](route.path, handler);
       }
-      this.app.use(base_path, express_router);
+      this.app.use(path, router)
     }
-    console.table(info);
   }
 }

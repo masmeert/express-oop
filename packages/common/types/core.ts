@@ -1,6 +1,6 @@
 import type { HttpMethod } from "./http";
 
 export type RouteMetadata = {
-  path: string;
+  path?: string;
   method: HttpMethod;
 };

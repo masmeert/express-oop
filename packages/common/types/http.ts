@@ -1,7 +1,7 @@
 export type HttpMethod = "get" | "post" | "put" | "delete" | "patch";
 
-export type Router = {
+export type HttpRoute = {
   path: string;
   method: HttpMethod;
-  handler_name: string;
+  handler: string | symbol;
 };
