@@ -1,9 +1,11 @@
-import type { Request, Response } from "express";
+import { z } from "zod";
+import type { NextFunction, Request, Response } from "express";
 
 import { Server } from "../packages/common/classes/server";
 import { Controller } from "../packages/common/decorators/controller";
 import { Get, Post } from "../packages/common/decorators/handlers";
 
+const todo_schema = z.object({ todo: z.string() });
 const todos = ["Learn Express", "Learn TypeScript"];
 
 @Controller("/todo")
@@ -20,7 +22,7 @@ export default class TodoController {
   }
 
   @Post()
-  public create(req: Request, res: Response): void {
+  public create(req: Request, res: Response, next: NextFunction): void {
     const { todo } = req.body;
     todos.push(todo);
     res.status(204).json({ todos });
