@@ -9,10 +9,9 @@ export class Server {
   private readonly app: express.Application;
   private passport: PassportStatic;
 
-  constructor(passport: PassportStatic, controllers: any[]) {
+  constructor(passport: PassportStatic) {
     this.app = express();
     this.passport = passport;
-    this.set_routes(controllers);
   }
 
   public start(port: number): void {
@@ -42,7 +41,7 @@ export class Server {
     });
   }
 
-  public set_routes<IController>(controllers: { new (): IController }[]): void {
+  public set_controllers(controllers: { new (): any }[]): void {
     for (const controller of controllers) {
       const instance = new controller() as any;
       const path = Reflect.getMetadata("path", controller);

@@ -32,7 +32,8 @@ const middlewares = [
 ];
 
 Promise.resolve().then(() => {
-  const server = new Server(passport, controllers);
+  const server = new Server(passport);
+  server.set_controllers(controllers)
   server.set_middlewares(middlewares);
   server.set_strategies(strategies);
   server.start(Env.PORT);
